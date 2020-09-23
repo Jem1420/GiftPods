@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-col class="ion-no-padding">
+    <div class="ion-text-center">
+    <ion-title><h3>GiftPods</h3></ion-title>
+    </div>  
+    </ion-col>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-col class="ion-no-padding">
+  <ion-searchbar></ion-searchbar>
+</ion-col>
+<ion-row>
+  <ion-col class="ion-no-padding">
+    <ion-chip>
+      <ion-icon name="heart" color="dark"></ion-icon>
+      <ion-label>Categories</ion-label>
+    </ion-chip>
+  </ion-col>
+</ion-row>
+
+<ion-list>
+  <ion-item *ngFor="let p of product">
+    <ion-thumbnail slot="start">
+      <img [src]="p.imgUrl">
+    </ion-thumbnail>
+    
+    <ion-label>
+      <h3>{{ p. name }}</h3>
+      <h5>{{ p.price | currency: "₱"}}</h5>
+    </ion-label>
+    <ion-col size="4" class="ion-text-right">
+      <ion-button fill="clear" (click)="addToCart(p)">
+        <ion-icon name="add"> </ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-item>
+</ion-list>
+</ion-content>
+
+

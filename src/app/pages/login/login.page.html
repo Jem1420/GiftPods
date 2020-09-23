@@ -1,0 +1,22 @@
+<ion-content>
+  <img src="../../../assets/images/LOGO GIFTPODS.png"/>
+  <h2>Log in</h2>
+  <form [formGroup]="credentialsForm" (ngSubmit)="openUser()">
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked"> Email </ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked"> Password </ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="block" type="submit" [disabled]="!credentialsForm.valid">
+    LOG IN
+  </ion-button>
+  <ion-button fill="outline" expand="block" type="button" (click)="openSignUp()" [disabled]="!credentialsForm.valid">
+    SIGN UP
+  </ion-button>
+</form>
+</ion-content>

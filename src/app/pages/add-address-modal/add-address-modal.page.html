@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title><b>Add Reciever's Address</b></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<form [formGroup]="recepientForm" (ngSubmit)="submit(recepientForm.value)">
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input  inputmode="text" formControlName="name"></ion-input>
+    </ion-item>
+    <div *ngFor="let error of errorMessages.name">
+      <ng-container *ngIf="name.hasError(error.type) && (name.dirty || name.touched)">
+        <small class="error-message">{{error.message}}</small>
+      </ng-container>
+    </div>
+    <ion-item>
+      <ion-label position="floating">Phone</ion-label>
+      <ion-input inputmode="phone" formControlName="phone"></ion-input>
+    </ion-item>
+    <div *ngFor="let error of errorMessages.phone">
+      <ng-container *ngIf="phone.hasError(error.type) && (phone.dirty || phone.touched)">
+        <small class="error-message">{{error.message}}</small>
+      </ng-container>
+    </div>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input inputmode="email" formControlName="email"></ion-input>
+    </ion-item>
+    <div *ngFor="let error of errorMessages.email">
+      <ng-container *ngIf="email.hasError(error.type) && (email.dirty || email.touched)">
+        <small class="error-message">{{error.message}}</small>
+      </ng-container>
+    </div>
+  </ion-list>
+  <ion-list formArrayName="address">
+    <ion-list-header>
+      <ion-label>Address</ion-label>
+    </ion-list-header>
+    <div *ngFor="let optionGroup of recepientForm.get('address')['controls'];  let i=index " [formGroup]="optionGroup">
+    <ion-item>
+      <ion-label position="floating">Floor/ Unit Number</ion-label>
+      <ion-input formControlName="floor"></ion-input>
+    </ion-item>
+    <!-- <div *ngFor="let error of errorMessages.floor">
+      <ng-container *ngIf="floor.hasError(error.type) && (floor.dirty || floor.touched)">
+        <small class="error-message">{{error.message}}</small>
+      </ng-container>
+    </div> -->
+    <ion-item>
+      <ion-label position="floating">Province</ion-label>
+      <ion-select formControlName="prov"  placeholder="Province" [(ngModel)]="selectedCountry" (ionChange)="changeCountry($event.target.value)">
+			<ion-select-option *ngFor="let i of Province" [value]="i.name"> {{i.name}} </ion-select-option>
+		</ion-select>
+    </ion-item>
+    <!-- <div *ngFor="let error of errorMessages.prov">
+      <ng-container *ngIf="prov.hasError(error.type) && (prov.dirty || prov.touched)">
+        <small class="error-message">{{error.message}}</small>
+      </ng-container>
+    </div> -->
+
+    <ion-item>
+      <ion-label position="floating">City</ion-label>
+      <ion-select formControlName="city" placeholder="City/Municipality" (ionChange)="changeState($event.target.value)">
+        <ion-select-option *ngFor="let i of states" [value]="i.name"> {{i.name}} </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <!-- <div *ngFor="let error of errorMessages.city">
+      <ng-container *ngIf="city.hasError(error.type) && (city.dirty || city.touched)">
+        <small class="error-message">{{error.message}}</small>
+      </ng-container>
+    </div> -->
+    <ion-item>
+      <ion-label position="floating">Street</ion-label>
+      <ion-select formControlName="street" placeholder="Street">
+        <ion-select-option *ngFor="let i of cities" [value]="i">{{i}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <!-- <div *ngFor="let error of errorMessages.street">
+      <ng-container *ngIf="street.hasError(error.type) && (street.dirty || street.touched)">
+        <small class="error-message">{{error.message}}</small>
+      </ng-container>
+    </div> -->
+  </div>
+  </ion-list>
+
+
+  <ion-list formArrayName="deliveryMethod">
+      <ion-list-header>
+        <ion-label>Delivery</ion-label>
+      </ion-list-header>
+  <div *ngFor="let radioGroup of recepientForm.get('deliveryMethod')['controls'];  let i=index " [formGroup]="radioGroup">
+  <ion-radio-group formControlName="method">
+  <ion-item>
+    <ion-label item-right >Courier</ion-label>
+    <ion-radio slot="start" mode="md" checked="!boolDelivery" (click)="change_choiceDelivery(false)" value="Courier"></ion-radio>
+  </ion-item>
+  <ion-item>
+    <ion-label item-right>LBC Express</ion-label>
+    <ion-radio slot="start" mode="md" checked="boolDelivery" (click)="change_choiceDelivery(true)" value="LBC Express"></ion-radio>
+  </ion-item>
+  </ion-radio-group>
+</div>
+  <!-- <div *ngFor="let error of errorMessages.method">
+    <ng-container *ngIf="method.hasError(error.type) && (method.dirty || method.touched)">
+      <small class="error-message">{{error.message}}</small>
+    </ng-container>
+  </div> -->
+  </ion-list>
+
+  <!-- [disabled]="!recepientForm.valid" -->
+  <ion-button expand="block" type="submit">
+    SAVE
+  </ion-button>
+  <ion-button fill="outline" expand="block" href="/">
+    CANCEL
+  </ion-button>
+</form>
+</ion-content>

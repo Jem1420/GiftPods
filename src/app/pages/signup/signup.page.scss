@@ -1,0 +1,23 @@
+ion-content{
+    h2{
+        font-size: 36px;
+        font-weight: bold;
+        padding-left: 20px !important;
+        }
+  
+        ion-item {
+            display: center;
+            border-radius: 5px !important;
+            padding-left: 5px !important;
+            margin: 15px 0px 0px 10px;
+            font-size: 1.2em;
+            border: 1px solid #ffffff;
+            border-bottom: 0px !important;
+            box-shadow: none !important;
+            max-width: 90vw; // this is applying perfectly
+            max-height: 10vh;
+            .line{
+                font-size: .1em;
+            }
+        }
+}

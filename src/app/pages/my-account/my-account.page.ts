@@ -1,0 +1,40 @@
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Storage } from '@ionic/storage';
+import { ToastController } from '@ionic/angular';
+
+@Component({
+  selector: 'app-my-account',
+  templateUrl: './my-account.page.html',
+  styleUrls: ['./my-account.page.scss'],
+})
+export class MyAccountPage implements OnInit {
+  data = '';
+ 
+  constructor(private authService: AuthService, private storage: Storage, private toastController: ToastController) { }
+ 
+  ngOnInit() {
+  }
+ 
+  loadSpecialInfo() {
+    this.authService.getSpecialData().subscribe(res => {
+      this.data = res['msg'];
+    });
+  }
+ 
+  logout() {
+    this.authService.logout();
+  }
+ 
+  clearToken() {
+    // ONLY FOR TESTING!
+    this.storage.remove('access_token');
+ 
+    let toast = this.toastController.create({
+      message: 'JWT removed',
+      duration: 3000
+    });
+    toast.then(toast => toast.present());
+  }
+ 
+}

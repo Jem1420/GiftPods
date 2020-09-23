@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>My Cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-no-padding">
+  <ion-list>
+  <ion-item *ngFor="let p of cart" class="ion-text-wrap">
+    <ion-grid>
+      <ion-row class="ion-justify-content-left">
+        <ion-col class="ion-align-self-start" size="4">
+          <div>
+            <ion-thumbnail class="color" slot="start">
+              <img [src]="p.imgUrl">
+            </ion-thumbnail>
+          </div>
+
+        </ion-col>
+        <ion-col class="ion-align-self-start"pull="1" size="7">
+          <ion-label>
+            <h1>{{ p.name }}</h1>
+            <p>Product Description</p>
+            <p>Seller name</p>
+          </ion-label>
+      </ion-col>
+      <ion-col size="1" class="ion-align-self-start"> 
+        <div class="alignment">
+        <ion-button color="medium" fill="clear" class="padding" (click)="removeCartItem(p)">
+          <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+        </ion-button>
+      </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-left">
+      
+      <ion-col size="3" class="ion-align-self-center">
+        <ion-button color="medium" fill="clear" class="padding" (click)="decreaseCartItem(p)">
+          <ion-icon name="remove-circle" slot="icon-only"></ion-icon>
+        </ion-button>
+        <b> {{ p.amount }}</b>
+        <ion-button color="medium" fill="clear" class="padding" (click)="increaseCartItem(p)">
+          <ion-icon name="add-circle" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+      <ion-col size="3" class="ion-align-self-end" offset="6">
+        <div class="alignment">
+          {{ p.amount * p.price | currency:'₱' }}
+        </div>
+      </ion-col>
+    </ion-row>    
+    </ion-grid>
+  </ion-item>
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="9">
+            Total:
+          </ion-col>
+          <ion-col size="3" class="ion-text-end">
+            {{ getTotal() | currency:'₱' }}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+</ion-list>
+
+<ion-button expand="full" (click)=" OpenShipping()">
+Checkout
+</ion-button>
+</div>
+</ion-content>

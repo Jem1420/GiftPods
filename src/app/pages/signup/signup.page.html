@@ -1,0 +1,36 @@
+<ion-content>
+  <h2>Sign Up</h2>
+  <form>
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked"> Full Name </ion-label>
+      <ion-input type="text" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked"> Phone </ion-label>
+      <ion-input type="phone" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked"> Email </ion-label>
+      <ion-input type="email" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked"> Password </ion-label>
+      <ion-input type="password" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked"> Confirm Password </ion-label>
+      <ion-input type="password" value=""></ion-input>
+    </ion-item>
+    <ion-item lines="none">
+     <div> Already you have an account? <a routerLink='/login'>Log In</a></div>
+    </ion-item>
+  </ion-list>
+  </form>
+  <ion-button expand="block" (click)="openLogIn()">
+    SIGN UP
+  </ion-button>
+  <ion-button fill="outline" expand="block" href="/">
+    CANCEL
+  </ion-button>
+</ion-content>
