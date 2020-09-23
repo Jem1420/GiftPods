@@ -1,25 +1,20 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-col class="ion-no-padding">
-    <div class="ion-text-center">
-    <ion-title><h3>GiftPods</h3></ion-title>
-    </div>  
-    </ion-col>
+    <ion-title class="ion-text-center">
+      GiftPODS
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-<ion-col class="ion-no-padding">
+<ion-content [fullscreen]= "true">
   <ion-searchbar></ion-searchbar>
-</ion-col>
-<ion-row>
-  <ion-col class="ion-no-padding">
-    <ion-chip>
-      <ion-icon name="heart" color="dark"></ion-icon>
-      <ion-label>Categories</ion-label>
-    </ion-chip>
-  </ion-col>
-</ion-row>
+
+
+<ion-slides [options]="slider" class="ion-padding" pager style="margin-top: 1.2rem;">
+  <ion-slide *ngFor="let slide of slider">
+    <img [src]="slide.imgUrl" alt="images">
+  </ion-slide>
+</ion-slides>
 
 <ion-list>
   <ion-item *ngFor="let p of product">

@@ -9,6 +9,11 @@ export interface Product{
   amount: number;
   imgUrl: string;
 }
+
+export interface Slider{
+  id: number,
+  imgUrl: string
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -27,6 +32,15 @@ export class CartService {
     {id: 10, name: 'LED Teddy Bear', price: 315, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.1&permmsgid=msg-f:1678532869156787221&th=174b58c051e85415&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ-R9_vl3Bcj0_ssmoHfa8APz1gM0k3uvl5EV8Kh74ELm1DePzKeFcJH7b1XVHjVhxUJi1VgGHXe7mXDmCGyazz8GMzRN1Q1RtpTK_gEj-7g5h1WliVA7B7tb6I&disp=emb&realattid=ii_kfetaid80'},
     
   ];
+  dataPic: Slider[]=[
+    {id:0, imgUrl:'https://www.waltonwoodfarm.com/wp-content/uploads/elementor/thumbs/Gift-giving-o4hqiwu74tzsw055ixq0ipjq0gtd3od3q02rzs896w.jpg'},
+    {id:1, imgUrl:'https://1.bp.blogspot.com/-XNpVfTMgG04/X2p8b4LwsoI/AAAAAAAAAkA/wPbBPjxFoygFUaCpG-pFp02r9Spirdn-wCLcBGAsYHQ/s16000/self-partnered-flowers.jpg'},
+    {id:2, imgUrl:'https://1.bp.blogspot.com/-4nIXFE7hC-k/X2p8b1o9RHI/AAAAAAAAAj8/XyBaSABZewcMZFK02Xmq6MteGws5VTfwwCLcBGAsYHQ/s16000/infinity_symbol_banner_dt.jpg'},
+    {id:3, imgUrl:'https://1.bp.blogspot.com/-28S-PFGVBKM/X2p8b81FDjI/AAAAAAAAAj4/VI2gZQ3u2zwFNb46R-nV_vDfLu5yZ9rQgCLcBGAsYHQ/s16000/featured_art_gift_istock.jpg'},
+    // {id:1, imgUrl:'https://tedideas.files.wordpress.com/2018/11/featured_art_gift_istock.jpg'},
+    // {id:2, imgUrl:'https://static.standard.co.uk/s3fs-public/thumbnails/image/2020/03/10/15/self-partnered-flowers.jpg'},
+    // {id:3, imgUrl:'https://cdn.mynamenecklace.co.uk/images/site/infinity_symbol_banner_dt.jpg'},
+  ];
   localData=[];
   cart =[];
   
@@ -39,6 +53,14 @@ export class CartService {
 
   getData(id){
     this.data[id];
+  }
+
+  getSlider(){
+    if (this.dataPic === [] ) {
+      return;
+    }
+    localStorage.setItem('slider', JSON.stringify(this.dataPic))
+    return this.localData=JSON.parse(localStorage.getItem('slider'))
   }
 
   getProduct(){

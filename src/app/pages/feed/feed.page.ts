@@ -11,12 +11,14 @@ import { BehaviorSubject } from 'rxjs';
 export class FeedPage implements OnInit {
   cart: any = [];
   product: any = [];
+  slider: any = [];
   cartItemCount: BehaviorSubject<number>;
 
 
   constructor(private cartService: CartService, private modalCtrl: ModalController) { }
 
   ngOnInit() {
+    this.slider = this.cartService.getSlider();
     this.product = this.cartService.getProduct();
     this.cartItemCount = this.cartService.getCartItemCount();
   }
