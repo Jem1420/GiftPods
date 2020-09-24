@@ -10,13 +10,33 @@
   <ion-searchbar></ion-searchbar>
 
 
-<ion-slides [options]="slider" class="ion-padding" pager style="margin-top: 1.2rem;">
+<ion-slides [options]="sliderOptions" class="ion-padding" pager style="margin-top: 1.2rem;">
   <ion-slide *ngFor="let slide of slider">
     <img [src]="slide.imgUrl" alt="images">
   </ion-slide>
 </ion-slides>
 
-<ion-list>
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <ion-list>
+        <ion-item *ngFor="let p of product" class= "item-entry" detail routerLink="/home/feed/prod-detail/{{ p.id }}">
+          <ion-thumbnail>
+            <ion-img [src]="p.imgUrl" alt="{{p.name}}"></ion-img>
+          </ion-thumbnail>
+          <ion-label>
+            <h3 class="item-name">{{p.name}}</h3>
+            <ion-text>
+              <p class="price">{{ p.price| currency: "PHP" }}</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<!-- <ion-list>
   <ion-item *ngFor="let p of product">
     <ion-thumbnail slot="start">
       <img [src]="p.imgUrl">
@@ -32,7 +52,7 @@
       </ion-button>
     </ion-col>
   </ion-item>
-</ion-list>
+</ion-list> -->
 </ion-content>
 
 
