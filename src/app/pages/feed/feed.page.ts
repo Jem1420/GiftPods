@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, LoadingController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalController, LoadingController, IonSearchbar } from '@ionic/angular';
 import { CartService } from 'src/app/services/cart.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -9,19 +9,41 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./feed.page.scss'],
 })
 export class FeedPage implements OnInit {
+  //products var
   cart: any = [];
   product: any = [];
   slider: any = [];
   cartItemCount: BehaviorSubject<number>;
 
+  //slider pics
   sliderOptions={
     autoplay:{
       delay:2000
     }, loop :true
   }
 
-  constructor(private cartService: CartService, private modalCtrl: ModalController, private LoadController: LoadingController) { }
-
+  //searchbar
+  public list: Array<Object> = [];
+  searchedItem: any;
+  
+  constructor(private cartService: CartService, private modalCtrl: ModalController, private LoadController: LoadingController) {
+    // this.list = [
+    //   { title: "TechAssembler" },
+    //   { title: "John" },
+    //   { title: "technology" },
+    //   { title: "Joshep" },
+    //   { title: "Maria" },
+    //   { title: "1234" },
+    //   { title: "0987" },
+    //   { title: "Pinty" },
+    //   { title: "pini0987" }
+    // ];
+    this.list = this.cartService.getProduct();
+    this.searchedItem = this.list;
+   }
+  
+  @ViewChild('search', {static: false}) search: IonSearchbar;
+  
   async ngOnInit() {
     this.slider = this.cartService.getSlider();
     this.product = this.cartService.getProduct();
@@ -39,6 +61,23 @@ export class FeedPage implements OnInit {
       
     },4000);
 
+  }
+  
+  enterData(){
+    setTimeout(() => {
+      this.search.setFocus();
+    });
+  }
+
+  filterData(event){
+    const val = event.target.value;
+
+    this.searchedItem = this.list;
+    if (val && val.trim() != '') {
+      this.searchedItem = this.searchedItem.filter((item: any) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
   }
 
   addToCart(product){
