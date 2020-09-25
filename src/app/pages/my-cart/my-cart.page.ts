@@ -32,6 +32,10 @@ export class MyCartPage implements OnInit {
     return this.cart.reduce((i,j) => i+j.price * j.amount, 0)
   }
 
+  getAmount(){
+    return this.cart.reduce((i,j)=> i+j.amount + 0, 0)
+  }
+
   OpenShipping(){
    this.cartService.setData(1,this.cart);
    this.router.navigateByUrl('/cart-modal/1');

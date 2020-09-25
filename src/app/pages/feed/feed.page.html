@@ -20,7 +20,7 @@
   <ion-row>
     <ion-col>
       <ion-list>
-        <ion-item *ngFor="let p of searchedItem" class= "item-entry" detail routerLink="/home/feed/prod-detail/{{ p.id }}">
+        <ion-item *ngFor="let p of product" class= "item-entry" detail routerLink="/home/feed/prod-detail/{{ p.id }}" button (click)="addToSingleProd(p)">
           <ion-thumbnail>
             <ion-img [src]="p.imgUrl" alt="{{p.name}}"></ion-img>
           </ion-thumbnail>

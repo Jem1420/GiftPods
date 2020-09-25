@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product, CartService } from 'src/app/services/cart.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-prod-detail',
@@ -9,33 +10,53 @@ import { Router } from '@angular/router';
 })
 
 export class ProdDetailPage implements OnInit {
-  
-  cart: Product[] =[];
-  constructor(private cartService: CartService, private router: Router) { }
+  cart: any = [];
+  product: any = [];
+  cartItemCount: BehaviorSubject<number>;
+  singleProd: any =[];
+  constructor(private cartService: CartService, private route: ActivatedRoute, private router: Router) { 
+    let id;
+  this.route.params.subscribe(product => {
+    id = product.id;
+  })
+  }
 
   ngOnInit() {
+    this.product = this.cartService.getProduct();
     this.cart = this.cartService.getCart();
-  }
-
-  decreaseCartItem(product){
-    this.cartService.decreaseProduct(product);
+    this.cartItemCount = this.cartService.getCartItemCount();
+    this.singleProd = this.cartService.getItem();
   }
   
-  increaseCartItem(product){
+  removeSingleProd(product){
+    this.cartService.removeItem(product);
+  }
+
+  addToCart(product){
     this.cartService.addProduct(product);
+    this.router.navigateByUrl('/my-cart');
   }
 
-  removeCartItem(product){
-    this.cartService.removeProduct(product);
-  }
+  
+  // decreaseCartItem(product){
+  //   this.cartService.decreaseProduct(product);
+  // }
+  
+  // increaseCartItem(product){
+  //   this.cartService.addProduct(product);
+  // }
 
-  getTotal(){
-    return this.cart.reduce((i,j) => i+j.price * j.amount, 0)
-  }
+  // removeCartItem(product){
+  //   this.cartService.removeProduct(product);
+  // }
 
-  OpenShipping(){
-   this.cartService.setData(1,this.cart);
-   this.router.navigateByUrl('/cart-modal/1');
-  }
+  // getTotal(){
+  //   return this.cart.reduce((i,j) => i+j.price * j.amount, 0)
+  // }
+
+  // OpenShipping(){
+  //  this.cartService.setData(1,this.cart);
+  //  this.router.navigateByUrl('/cart-modal/1');
+  // }
 
 }

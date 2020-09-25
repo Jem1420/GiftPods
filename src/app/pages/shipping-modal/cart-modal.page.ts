@@ -19,8 +19,12 @@ export class CartModalPage implements OnInit {
     }
   }
 
-    getTotal(){
+  getTotal(){
     return this.cart.reduce((i,j) => i+j.price * j.amount, 0)
+  }
+
+  getAmount(){
+    return this.cart.reduce((i,j)=> i+j.amount + 0, 0)
   }
 
   addAddress(){
@@ -30,5 +34,6 @@ export class CartModalPage implements OnInit {
   openPayModal(){
     this.router.navigateByUrl('/pay-modal');
    }
+   
 
 }

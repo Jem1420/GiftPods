@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {Storage} from '@ionic/storage';
 
 export interface Product{
   id: number;
   name: string;
   price: number;
+  desc: string;
+  category: string;
   amount: number;
   imgUrl: string;
 }
@@ -19,17 +21,17 @@ export interface Slider{
 })
 export class CartService {
   data: Product[]=[
-    {id: 0, name: 'Eiffel Tower Light', price: 134, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.2&permmsgid=msg-f:1678532552419260766&th=174b587692e1395e&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ_BrUTJyUgrOQ3rtr3dMfpMQaFfMdC4-_nfDbkirJf7aRF1DUCUN3NnMMjs6vYtXDkV517cgtuqk7X8OPmtPg7IAg_wcECvI6KyFc7l-TYRjsLUf_wEo7k17SY&disp=emb&realattid=ii_kfest8ts1'},
-    {id: 1, name: 'Gift Box Small Bouquet', price: 315, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.8&permmsgid=msg-f:1678532552419260766&th=174b587692e1395e&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ_iIIzxog3xuHkDZdpWpK0kE1GTFgRmaJ9BstO4iuTLFUMHSbagoDK2gdXZfXnP9PHi6zpU1ce9I0mgwKXImLmBGq4SO7T8Jc6-LVW-VRvktgh3g3SwCORK_WI&disp=emb&realattid=ii_kfesvj1o7'},
-    {id: 2, name: 'Rose Flower Lamp', price: 550, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.9&permmsgid=msg-f:1678532552419260766&th=174b587692e1395e&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ8Tm90ADBwdM-sRgA49h8oVI-Bl8nUrgFmHiBux_47Z5LvcGmQty0uC90qaVGB9oh3nXYP8zXc8uY4BPDbnYeCTfnnS2t9_cMys3L1aVHnDTeDymJ6r8McHZNM&disp=emb&realattid=ii_kfesvtmm8'},
-    {id: 3, name: 'Rose soap flower', price: 287, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.7&permmsgid=msg-f:1678532552419260766&th=174b587692e1395e&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ-SthxAfn3aU2KtL56pizsDsUfiR15Ns8K9XIWwDJCFGr5DExq9PShI23h_mb50RtWLA0Fc907GTEDVPn8rrNsEKufE5tJyowxFF1T0l1Sn_3of1iiQDoPpmaM&disp=emb&realattid=ii_kfesv1wb6'},
-    {id: 4, name: 'Beauty & The Beast Lamp', price: 50, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.6&permmsgid=msg-f:1678532552419260766&th=174b587692e1395e&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ8nRaGDJXBZcg2Qq4KoVekaX4L6sa9I3gZVmU6GkB50lrN-eScthZoeKxOVWVPlCihRdhRaketVmaBrDcT7yn8_kwok2Tk3XS8KrrgRO1j6hlOBmpEf5j_S8kc&disp=emb&realattid=ii_kfesuiu75'},
-    {id: 5, name: 'Coffee Gift Set', price: 540, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.5&permmsgid=msg-f:1678532552419260766&th=174b587692e1395e&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ8HZxN2uBssHUrIhlxTFh5oGJ-mXHEme_TpfIeEzn8HxsWJOncK6tCcf_exONRjkDJLixSHlI7Ij17HKVlUE2v1MzMBeMagc6HpSkSS_2hQBFW1gOTbxlZJEW0&disp=emb&realattid=ii_kfesu3w04'},
-    {id: 6, name: '3D Moon Lamp', price: 446, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.4&permmsgid=msg-f:1678532552419260766&th=174b587692e1395e&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ9enhE6FdXtUH3fYaidDlXOPDfo3DIcmPXgSR7kpbX0gU4yef69nzb5xm3NBkM8cQKwGt997i82qc9ehy900cK2Anur6ei8D4UU3s400drjvIJJjm96Q_RII1w&disp=emb&realattid=ii_kfests7k3'},
-    {id: 7, name: 'LED Starry Night Sky', price: 169, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.3&permmsgid=msg-f:1678532552419260766&th=174b587692e1395e&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ-NJj5EN7XHKFqK1PB6_UJrzx6DeeSOXOi8UXLA6BZvyQVoQZ85VwhJ95urFtzQsxQxBZaYTTQM0QhYIZB-oKcsdSs4EtRUr4xItbsUZ_5rDlcAfvCRwGrF2BY&disp=emb&realattid=ii_kfestg1j2'},
-    {id: 8, name: 'Vertical Bar Necklace', price: 155, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.1&permmsgid=msg-f:1678532552419260766&th=174b587692e1395e&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ8eyUomXmfRoI44iJ2x7CF6-LLdLHu0q_7aDV6tWmMip5eUL8sVg7sgEdAYJLY8VFAz46yNY5sPEeHn2HVI-gpqooABa3CzndG5IB06NIwXFlWW_WhbcaVhWvM&disp=emb&realattid=ii_kfesstfs0'},
-    {id: 9, name: 'Soup Flower Bouquet', price: 199, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.10&permmsgid=msg-f:1678532552419260766&th=174b587692e1395e&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ_mXsyyyXpZzR17mPvFLJTqfiUz4IERXzRlOFyENFlieW0kzgULaX7jrHOsAG7PVNOHS5mxUttRqIwXV76Nel4LwwB2ZHJTRAeQTyy6Eav4RU3YYx5zTCVdQOk&disp=emb&realattid=ii_kfet55cn9'},
-    {id: 10, name: 'LED Teddy Bear', price: 315, amount:1, imgUrl:'https://mail.google.com/mail/u/2?ui=2&ik=066023d0b1&attid=0.1&permmsgid=msg-f:1678532869156787221&th=174b58c051e85415&view=fimg&sz=s0-l75-ft&attbid=ANGjdJ-R9_vl3Bcj0_ssmoHfa8APz1gM0k3uvl5EV8Kh74ELm1DePzKeFcJH7b1XVHjVhxUJi1VgGHXe7mXDmCGyazz8GMzRN1Q1RtpTK_gEj-7g5h1WliVA7B7tb6I&disp=emb&realattid=ii_kfetaid80'},
+    {id: 0, name: 'Eiffel Tower Light',category:'Lamp', desc: 'Style: Fashion Material: PMMA Light Source: LED Voltage: 1VPower Consumption: 1WBatteries: 3Pcs LR44 Batteries, 3Pcs AG10 Batteries Features: Cute, LED Night Light, Eiffel Tower Shape, Creative, Size: 7.5cm x 7.5cm x 20cm/2.95" x 2.95" x 7.87" (Approx.)', price: 134, amount:1, imgUrl:'https://1.bp.blogspot.com/--1nuFTrB5Tg/X21tX07VbiI/AAAAAAAAAkU/RgkGPovXEEAB197nD_kR0OR4AMotBoU0ACLcBGAsYHQ/s16000/prod1.jpg'},
+    {id: 1, name: 'Gift Box Small Bouquet',category: 'Flowers', desc: 'Name: Artificial Rose Valentine s Gift. Material: artificial flower. Length: 29 * 19 * 9cm. Weight: 350G' ,price: 315, amount:1, imgUrl:'https://1.bp.blogspot.com/--p-N6VT52ck/X21tYLsmMlI/AAAAAAAAAkY/blDkRxYkn3g_nZpObvm8OhQfU584jFaZgCLcBGAsYHQ/s16000/prod2.jpg'},
+    {id: 2, name: 'Rose Flower Lamp',category: 'Lamp', desc:'product features: Item: Valentines Day Eternal Flower Glass Cover Decoration. Color: transparent. Material: glass dome, pine bottom, flannel rose. Uses: decorations, gifts. Light color: warm white. Switch: ON / OFF. Technical support: 3 x AAA batteries (not included). Product size: about 22x11.4 cm / 8.7x4.5 inches', price: 550, amount:1, imgUrl:'https://1.bp.blogspot.com/-AWwV7sDgfXk/X21tYytVD0I/AAAAAAAAAkg/5iH5VkQrOqEl0nlktoWpGMfUFsMCF8PnACLcBGAsYHQ/s320/prod3.jpg'},
+    {id: 3, name: 'Rose soap flower',category: 'Soap', desc:'Dried flowers and eternal flowers belong to natural plants. It is normal to have petals and leaves falling during the transportation of goods. Dont panic, do not affect the shape of the whole bouquet, and remove the fallen petals and leaves.' ,price: 287, amount:1, imgUrl:'https://1.bp.blogspot.com/-eJEbSncdDPg/X21tZAkHAUI/AAAAAAAAAkk/4pAqEYOfYnkXQ2MT7zs56NRCB1Gb0mQnQCLcBGAsYHQ/s16000/prod4.jpg'},
+    {id: 4, name: 'Beauty & The Beast Lamp',category: 'Lamp', desc:'LED light bar with glass lampshade creates a romantic and romantic atmosphere for lovers.', price: 50, amount:1, imgUrl:'https://1.bp.blogspot.com/-_IZK0EH-US8/X21tZYLnWPI/AAAAAAAAAko/kZQ1-8LkoMgzqX1_KYdYU7zbvugjWho4ACLcBGAsYHQ/s16000/prod5.jpg'},
+    {id: 5, name: 'Coffee Gift Set', category: 'Beverages', desc:'#gift #giftbox #giftset #souvenirs #souvernirph #giveaways #sponsors', price: 540, amount:1, imgUrl:'https://1.bp.blogspot.com/-97AffZ5ZJvk/X21tZ_GiahI/AAAAAAAAAks/9bFVvY1UQdkB9XbprsDjcPSVzxKLFDyLACLcBGAsYHQ/s16000/prod6.jpg'},
+    {id: 6, name: '3D Moon Lamp', category: 'Lamp', desc:'Touch the metal ring at the bottom of the moon lamp to turn on / off the light and change color from white to yellow. Long press the metal ring to adjust the brightness, and it has the brightness memory function.' ,price: 446, amount:1, imgUrl:'https://1.bp.blogspot.com/-TJRpWcmxmd8/X21tZ4EmhBI/AAAAAAAAAkw/MErkXlPaZdMRaOxlW4z20slj8b_iTiIDgCLcBGAsYHQ/s16000/prod7.jpg'},
+    {id: 7, name: 'LED Starry Night Sky',category: 'Lamp', desc: 'There could be some slight differences in the color tone of the pictures and the actual item. Please allow 1-2mm differs due to manual measurement, thanks.', price: 169, amount:1, imgUrl:'https://1.bp.blogspot.com/-B4wdXCUi16M/X21vbyxVYfI/AAAAAAAAAlc/kdkjEMYDgdsOOUuAFxkAAuL5_ULCFjolgCLcBGAsYHQ/s16000/prod66.jpg'},
+    {id: 8, name: 'Vertical Bar Necklace',category: 'Necklace', desc: '#Necklace #Jewelry #stainlesssteel #BarNecklace #AnniversaryGift #lovegifts #crystalnecklace', price: 155, amount:1, imgUrl:'https://1.bp.blogspot.com/-7wdVbdWv884/X21taKOlhDI/AAAAAAAAAk0/mIvgB--AhB4noCkbngI7b3bLQIoo2NKRgCLcBGAsYHQ/s16000/prod8.jpg'},
+    {id: 9, name: 'Soup Flower Bouquet', category: 'Flowers', desc: 'May damage po ang box. The itself has no damage at all. Perfect for gift, hindi nasisira. Natutunaw kpag binasa sa tubig, soap po kc ang petal nya.' ,price: 199, amount:1, imgUrl:'https://1.bp.blogspot.com/-Kyb8InQiptA/X21tap3BJmI/AAAAAAAAAk4/eNJzRV1uKHshFoCEn6Lb6rnNAmM-lHsVwCLcBGAsYHQ/s16000/prod9.jpg'},
+    {id: 10, name: 'LED Teddy Bear',category: 'Stuff Toys', desc:'Inside with LED device, include more than 7 Changing colors, can shine up after equipped with batteries. When you place 2 AA batteries in it, please press the button on the right of the arm, and it will light up. If you press it again, it will turn off.' , price: 315, amount:1, imgUrl:'https://1.bp.blogspot.com/-EzEksPWS_E4/X21tYAYvpDI/AAAAAAAAAkc/1fy7tDmT8QsplOebn8sojMXXyMQv4wQyQCLcBGAsYHQ/s16000/prod10.jpg'},
     
   ];
   dataPic: Slider[]=[
@@ -37,15 +39,15 @@ export class CartService {
     {id:1, imgUrl:'https://1.bp.blogspot.com/-XNpVfTMgG04/X2p8b4LwsoI/AAAAAAAAAkA/wPbBPjxFoygFUaCpG-pFp02r9Spirdn-wCLcBGAsYHQ/s16000/self-partnered-flowers.jpg'},
     {id:2, imgUrl:'https://1.bp.blogspot.com/-4nIXFE7hC-k/X2p8b1o9RHI/AAAAAAAAAj8/XyBaSABZewcMZFK02Xmq6MteGws5VTfwwCLcBGAsYHQ/s16000/infinity_symbol_banner_dt.jpg'},
     {id:3, imgUrl:'https://1.bp.blogspot.com/-28S-PFGVBKM/X2p8b81FDjI/AAAAAAAAAj4/VI2gZQ3u2zwFNb46R-nV_vDfLu5yZ9rQgCLcBGAsYHQ/s16000/featured_art_gift_istock.jpg'},
-    // {id:1, imgUrl:'https://tedideas.files.wordpress.com/2018/11/featured_art_gift_istock.jpg'},
-    // {id:2, imgUrl:'https://static.standard.co.uk/s3fs-public/thumbnails/image/2020/03/10/15/self-partnered-flowers.jpg'},
-    // {id:3, imgUrl:'https://cdn.mynamenecklace.co.uk/images/site/infinity_symbol_banner_dt.jpg'},
+  
   ];
   localData=[];
+  local=[];
   cart =[];
+  singleProd =[];
   
   private cartItemCount = new BehaviorSubject(0);
-  constructor(private storage:Storage) { }
+  constructor(private localStorage:Storage) { }
   
   setData(id, data){
     this.data[id] = data;
@@ -53,14 +55,6 @@ export class CartService {
 
   getData(id){
     this.data[id];
-  }
-
-  getSlider(){
-    if (this.dataPic === [] ) {
-      return;
-    }
-    localStorage.setItem('slider', JSON.stringify(this.dataPic))
-    return this.localData=JSON.parse(localStorage.getItem('slider'))
   }
 
   getProduct(){
@@ -82,6 +76,8 @@ export class CartService {
     if(this.cart ===[]){return;}
     localStorage.setItem('cart', JSON.stringify(this.cart));
   }
+
+
   getCartItemCount(){
    return this.cartItemCount;
   }
@@ -127,6 +123,56 @@ export class CartService {
         // console.log(this.cart);
         
       }
+      
   }
+
+}
+
+getItem(){
+  this.saveItem();
+  return this.singleProd = JSON.parse(localStorage.getItem('singleProd'))
+}
+saveItem(){
+  if(this.singleProd ===[]){return;}
+  localStorage.setItem('singleProd', JSON.stringify(this.singleProd));
+}
+
+getSingleProd(product){
+  let added = false;
+  for (let p of this.singleProd) {
+    if (p.id===product.id) {
+      p.amount++
+      added = true;
+      localStorage.setItem('singleProd', JSON.stringify(this.singleProd));
+      break;
+    }
+  }if (!added) {
+    this.singleProd.push(product);
+    this.saveItem();
+  } 
+  localStorage.setItem('singleProd', JSON.stringify(this.singleProd));
+}
+
+removeItem(product) {
+  for (let [index, p] of this.singleProd.entries()) {
+    if (p.id === product.id) {
+      p.amount=p.amount-p.amount+1;
+      
+      this.singleProd.splice(index, 1);
+      localStorage.setItem('singleProd', JSON.stringify(this.singleProd));
+      // console.log(this.singleProd);
+      
+    }
+    
+}
+
+}
+
+getSlider(){
+  if (this.dataPic === [] ) {
+    return;
+  }
+  localStorage.setItem('slider', JSON.stringify(this.dataPic))
+  return this.localData=JSON.parse(localStorage.getItem('slider'))
 }
 }

@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>payModal</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Payment</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
@@ -19,7 +22,7 @@
       <ion-row>
         <ion-col style="padding-left: 0;">Total Payment</ion-col>
         <ion-col class="ion-text-end">
-          {{currencyIcon}} {{paymentAmount}}
+          {{ getTotal() | currency:'₱' }}
         </ion-col>
       </ion-row>
     </ion-card-header>

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, LoadingController, IonSearchbar } from '@ionic/angular';
 import { CartService } from 'src/app/services/cart.service';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-feed',
@@ -26,7 +27,7 @@ export class FeedPage implements OnInit {
   public list: Array<Object> = [];
   searchedItem: any;
   
-  constructor(private cartService: CartService, private modalCtrl: ModalController, private LoadController: LoadingController) {
+  constructor(private cartService: CartService, private router: Router, private LoadController: LoadingController) {
     // this.list = [
     //   { title: "TechAssembler" },
     //   { title: "John" },
@@ -80,9 +81,14 @@ export class FeedPage implements OnInit {
     }
   }
 
+  addToSingleProd(product){
+    this.cartService.getSingleProd(product);
+  }
   addToCart(product){
     this.cartService.addProduct(product);
+    this.router.navigateByUrl('/my-cart');
   }
+
 
 
 

@@ -1,15 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"  text="" icon="chevron-back-outline"></ion-back-button>
+    <ion-buttons *ngFor="let p of singleProd" >
+      <ion-back-button  defaultHref="/" button (click)="removeSingleProd(p)"></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-start"></ion-title>
   </ion-toolbar>
+</ion-header>
 
-<ion-content>
+<ion-content *ngFor="let p of singleProd">
   <ion-slides class="ion-padding">
-    <ion-slide>
-      <ion-img></ion-img>
+    <ion-slide *ngFor="let i of singleProd">
+      <ion-img [src]="i.imgUrl" alt="{{i.name}}"></ion-img>
     </ion-slide>
   </ion-slides>
   
@@ -18,37 +18,42 @@
 <ion-grid class="ion-no-padding">
   <ion-row class="ion-no-padding">
     <ion-col class="ion-no-padding">
-      <ion-card>
+      <ion-card >
         <ion-card-header>
           <ion-card-title>
-            <h2>PRODUCT TITLE</h2>
+            <h3>{{ p.name }}</h3>
+            <h5 class="fontcolor">{{ p.price | currency: '₱'}}</h5>
           </ion-card-title>
           <ion-card-subtitle>
-            <ion-chip>
-              CATEGORY NAMES
+            <ion-chip color="danger">
+              <ion-label>
+              {{p.category}}
+            </ion-label>
             </ion-chip>
           </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
           <ion-label>
-            <p>product description</p>
+            <p>{{ p.desc }}</p>
           </ion-label>
-          <ion-text>
-            <p>PRICE</p>
-          </ion-text>
         </ion-card-content>
       </ion-card>
     </ion-col>
   </ion-row>
 </ion-grid>
+<ion-col size="4" class="ion-text-right">
+  <ion-button  expand="full" fill="solid" (click)="addToCart(p)">
+    Add to Cart
+  </ion-button>
+</ion-col>
 </ion-content>
-
+<!-- 
 <ion-footer>
-  <ion-toolbar style="padding: 0 10px;">
+  <ion-toolbar *ngFor="let p of product" style="padding: 0 10px;">
     <ion-label>
-      <ion-button color="tertiary" expand="full" fill="solid">
+      <ion-button  expand="full" fill="solid" (click)="addToCart(p)">
         Add to Cart
       </ion-button>
     </ion-label>
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->

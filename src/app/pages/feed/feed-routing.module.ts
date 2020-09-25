@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: FeedPage
+  },
+  {
+    path: 'prod-detail/:id',
+    loadChildren: () => import('../prod-detail/prod-detail.module').then(m => m.ProdDetailPageModule)
   }
 ];
 

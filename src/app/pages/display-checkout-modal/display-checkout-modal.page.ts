@@ -25,9 +25,12 @@ export class DisplayCheckoutModalPage implements OnInit {
     }
   }
 
-
-    getTotal(){
+  getTotal(){
     return this.cart.reduce((i,j) => i+j.price * j.amount, 0)
+  }
+
+  getAmount(){
+    return this.cart.reduce((i,j)=> i+j.amount + 0, 0)
   }
   openPayModal(){
     this.router.navigateByUrl('/pay-modal');

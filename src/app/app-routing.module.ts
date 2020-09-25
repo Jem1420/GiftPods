@@ -18,6 +18,10 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
+    path: 'my-cart',
+    loadChildren: () => import('./pages/my-cart/my-cart.module').then( m => m.MyCartPageModule)
+  },
+  {
     path: 'cart-modal',
     loadChildren: () => import('./pages/shipping-modal/cart-modal.module').then( m => m.CartModalPageModule)
   },
